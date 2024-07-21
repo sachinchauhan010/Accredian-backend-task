@@ -83,15 +83,19 @@ export const referEarn = async (req, res) => {
 				}
 			});
 
-			sendEmail(referrerName, referrerEmail, referrerPhoneNo, referrerRelation, refertoemail)
+			const res=await sendEmail(referrerName, referrerEmail, referrerPhoneNo, referrerRelation, refertoemail)
 				.then(result => console.log('Referral email sent:', result))
 				.catch(error => console.log('Error sending referral email:', error.message));
 
 			console.log(newReferrer, "newReferrer");
-			return res.status(201).json({
-				newReferrer: newReferrer,
-				message: 'Referral email sent',
-			});
+			if(res){
+
+				return res.status(201).json({
+					data: newReferrer,
+					success: true,
+					message: "Refer Email Send"
+				});
+			}
 		}
 	} catch (error) {
 		console.error(error);
